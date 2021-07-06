@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { dataSource } from './data.js';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import PieChart, {
+  Legend,
+  Export,
+  Series,
+  Label,
+  Font,
+  Connector
+} from 'devextreme-react/pie-chart';
+
+class App extends React.Component {
+
+  render() {
+    return (
+      <PieChart id="pie"
+        palette="Bright"
+        dataSource={dataSource}
+        title=" Revenue Report"
+      >
+        <Legend
+          orientation="verticle"
+          itemTextPosition="right"
+          horizontalAlignment="center"
+          verticalAlignment="left"
+          columnCount={4} />
+        <Export enabled={true} />
+        <Series argumentField="Name" valueField="Revenue">
+          <Label
+            visible={true}
+            position="columns"
+            customizeText={customizeText}>
+            <Font size={24} />
+            <Connector visible={true} width={5.5} />
+          </Label>
+        </Series>
+      </PieChart>
+    );
+  }
+}
+
+function customizeText(arg) {
+  return `${arg.valueText} (${arg.percentText})`;
 }
 
 export default App;
+
+
+
